@@ -33,3 +33,39 @@ pass:admin
 
 # 5. PHP - Command injection
 pass: S3rv1ceP1n9Sup3rS3cure
+# 6. Backup file
+Content discovery (use dirsearch)
+
+pass: OCCY9AcNm1tj
+# 7. HTTP - Directory indexing
+Content discovery 
+
+pass: Linux
+# 8. HTTP - Headers
+change the header (script in folder)
+
+pass: HeadersMayBeUseful
+# 9. HTTP - POST
+As the title, use request method:POST to send data (script in folder)
+
+pass: H7tp_h4s_N0_s3Cr37S_F0r_y0U
+
+# 10. HTTP - Improper redirect
+The web page is automatically add redirect param to the url because of the Location header
+
+```
+http://challenge01.root-me.org/web-serveur/ch32/login.php?redirect
+```
+
+**The Location response header indicates the URL to redirect a page to. It only provides a meaning when served with a 3xx (redirection) or 201 (created) status response.)**
+
+Solution: add 
+```
+allow_redirects=False
+```
+to the request (script in the folder)
+
+pass: ExecutionAfterRedirectIsBad
+
+
+
