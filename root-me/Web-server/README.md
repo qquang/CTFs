@@ -101,3 +101,26 @@ now change this to reverse.php.png to bypass the image filter and the final step
 challenge01.root-me.org/web-serveur/ch20/galerie/upload/0c3f5ea659f03569d6fce99cf1233c56/test.php.png?cmd=cat%20../../../.passwd
 ```
 pass: Gg9LRz-hWSxqqUKd77-_q-6G8
+
+# 15. File upload - MIME type
+(Kiểu phương tiện là định danh hai phần cho định dạng file và nội dung định dạng được truyền trên Internet.)
+
+So idea here is use Burp to change the header **Content-type** from  from **aplication/octet-stream** to **image/png**. Ok now we can upload our script successfully
+
+pass: a7n4nizpgQgnPERy89uanf6T4
+
+# 16. HTTP - Cookies
+Use burp to catch request and chang the cookie from **visiteur** to **admin**
+
+pass: ml-SYMPA 
+# 17. Insecure Code Management
+(use Gittools)
+
+pass: s3cureP@ssw0rd
+
+# .. SQL INJECTION AUTHENTICATION
+When we use **'** ,we'll get this error:
+```
+Warning: SQLite3::query(): Unable to prepare statement: 1, near "1": syntax error in /challenge/web-serveur/ch9/index.php on line 38
+near "1": syntax error
+```
