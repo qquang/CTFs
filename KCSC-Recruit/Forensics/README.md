@@ -51,6 +51,7 @@ thông thuờng thì các credential thuờng đưọc lưu trong /system32/conf
 samdump2 SYSTEM SAM > password.txt
 ```
 ![alt](./img/271747457_263461832568665_1835570477859689173_n.png)
+
 Thưòng thì LM- với NT-hash là cách để Windows lưu trữ mật khẩu. theo kinh nghiệm thì mình cũng đoán ra đuợc đây là dạng hash NTLM :vv. thì bây giờ ta có thể dùng john để crack đọan hash nay`
 ```
 john --format=nt --wordlist=/home/qquang/SecLists/wordlist.txt password.txt
