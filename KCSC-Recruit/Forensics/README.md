@@ -5,7 +5,7 @@ C4n j00 h34r m3?
 Author: 51LV3R KN16H7 KM4
 
 ## Solution
-Nhìn qua file mp3 này thì việc đầu tiên mình nghĩ đến là dùng audacity để phân tích :v nhưng mà nghĩ lại đây là bài foren basic đầu tiên  nên mình nên thử truớc bằng 1 số command đơn giản hoặc nột số tool để check param như là : strings , binwalk , exiftool, ...
+Nhìn qua file mp3 này thì việc đầu tiên mình nghĩ đến là dùng audacity để phân tích :v nhưng mà nghĩ lại đây là bài foren basic đầu tiên  nên mình nên thử truớc bằng 1 số command đơn giản hoặc một số tool để check param như là : strings , binwalk , exiftool, ...
 
 Cụ thể trong thử thách thì mình đã chạy hexedit:
 ```
