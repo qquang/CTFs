@@ -146,6 +146,8 @@ So the idea here is enter the string that would hash to 0e6545579642. Because PH
 
 i had wrote a script to do that for us. (in the script folder). Just run it then we can get the correct $_POST['poss_code'].
 
+** 0e1137126905 : 0e291659922323405260514745084877 **
+
 **flag: KCTF{ShOuD_wE_cOmPaRe_MD5_LiKe_ThAt__Be_SmArT}**
 
 # Most Secure Calculator - 1
