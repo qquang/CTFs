@@ -1,0 +1,12 @@
+#!python3
+
+from cv2 import sepFilter2D
+
+
+str='XYXXYXYYXYXXXXYYXYXYXXYYXYXXXXYYXYYYYXYYXXYYXYXXXYYYXXYXXYYXXYXYXYXYYYYYXYYYXYXYXYXYYYYYXYXYXXYXXXYYXXYYXYYXXXXYXYYXXYXXXYXYYXXYXYXYYYYYXYXYYYYYXYXYYYYYXXYYYYYYXYYYYYXY'
+str1=str.replace('X','1').replace('Y','0')
+str2=str.replace('X','0').replace('Y','1')
+
+#convert from binary to string
+
+#flag: KCSC{4re_u_R3adY___?}
