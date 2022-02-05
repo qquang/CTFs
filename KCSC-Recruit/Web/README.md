@@ -67,7 +67,7 @@ for i in range(100000):
 
 flag: KCSC{Gud_luckkkkk__brooo}
 
-# 4. Magic PHP
+# 4. Magic PHP (not solved)
 
 ![code](img/269949043_3655712944553529_7819781494039002905_n.png)
 
@@ -108,3 +108,22 @@ payload sẽ như sau : **user=0e1137126905&pass=1&password=1**
 flag: KCSC{LFI_to_loose_comparison@@}
 
 (Tiếc bài này thật :( nếu mà cố thêm tí nữa thì ôm đưọc gần 1k points về rồi)
+
+
+# ENCRYPTBOIZZZ (Author: nhienit) (not solved)
+
+## Solution
+decode AES MODE ECB 
+
+hiểu đơn giản thì input cho AES_ECB cần phải là bội số của 16 bytes (nếu ko đủ thì tự thêm padding).
+Thì ở đây ta sẽ có một số dữ liệu được mã hóa bao gồm mật khẩu + key (tổng cộng là 16B) mà ta cần lấy.
+Thì ví dụ, nếu 15B mật khẩu, 1B key sẽ được thêm vào mật khẩu thì 16B này sẽ được mã hóa và 15B key còn lại sẽ được thêm padding và mã hóa. Do đó chúng ta có 2 * 16B.
+```
+Block1=X=AES_ECB( password(15B) || key(1B) )
+Block2=Y=AES_ECB( password(15B) || x(1B) ) 
+```
+(bruteforce đến khi nào Block1=Block2) tuơng tự ta giảm size pass xuống và tăng size key lên 
+
+(script o trong folder)
+
+flag: KCSC{Hello hacker! Hello new member ! Hello our talent <3}
