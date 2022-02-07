@@ -110,7 +110,7 @@ So idea here is use Burp to change the header **Content-type** from  from **apli
 pass: a7n4nizpgQgnPERy89uanf6T4
 
 # 16. HTTP - Cookies
-Use burp to catch request and chang the cookie from **visiteur** to **admin**
+Use burp to catch request and change the cookie from **visiteur** to **admin**
 
 pass: ml-SYMPA 
 # 17. Insecure Code Management
@@ -118,9 +118,64 @@ pass: ml-SYMPA
 
 pass: s3cureP@ssw0rd
 
-# .. SQL INJECTION AUTHENTICATION
-When we use **'** ,we'll get this error:
+# 18. JSON Web Token (JWT) - Introduction
+first, let's capture the request and respone with burp
+
+![image info](img/248008306_329979162475483_3939972177496919035_n.png)
+
+So as the title, the idea here is to change the jwt token to bypass this page. Let's use jwt.io ([here](https://jwt.io/)) to decode this jwt token.
+
+![image info](img/271772730_708851527148236_2564623737749867392_n.png)
+
+So we can change the algorithm from **HS256** to **none** and delete the signature key at the end (because **none** alg doesnt need that key). After doing that, we encode that token to base64 and send it to get the password
+
+pass: S1gn4tuR3_v3r1f1c4t10N_1S_1MP0Rt4n7
+
+
+
+# ------------- TIENG VIET ---------------
+# 19. Directory traversal
+Xin phép qua tiếng việt viết cho nhanh chứ làm quả 7 mấy chall tiếng anh thì đến già ms xong mất :( (với cả mình nghĩ đến tầm chall này trở đi cũng bắt đầu cần động não rùi)
+
+
+Cái title đã gợi ý lỗ hổng cho rùi, mình sẽ dùng param galerie để khai thác lỗ hổng, thử enumerate bằng payload này: "**.**" xem sao 
+
 ```
-Warning: SQLite3::query(): Unable to prepare statement: 1, near "1": syntax error in /challenge/web-serveur/ch9/index.php on line 38
-near "1": syntax error
+http://challenge01.root-me.org/web-serveur/ch15/ch15.php?galerie=.
 ```
+
+![img](img/Screenshot%20from%202022-02-07%2019-31-42.png)
+
+Yeh và nó đã liệt kê hết các dict trong dict galerie, trong đó có thư mục 86hwnX2r là cần lưu ý, giờ chui vào thoi, làm cũng tuơng tự như trên
+
+```
+http://challenge01.root-me.org/web-serveur/ch15/ch15.php?galerie=.
+```
+
+![img](img/Screenshot%20from%202022-02-07%2019-36-59.png)
+
+yay và cuối cùng truy cập lấy flag thôi
+
+flag: kcb$!Bx@v4Gs9Ez
+# 20. File upload - Null byte
+Upload thử đoạn script từ chall 14 với png filter xem ntn
+
+![img](img/Screenshot%20from%202022-02-07%2019-53-29.png) 
+
+Tận dụng hint từ title, mình sẽ thêm cái Null byte vào cuối để bypass filter, mình sẽ thử đặt nó ở vài chỗ như:
+
+* 1 upload%00.php.png
+* 2 upload.php%00.png
+* 3 upload.php.png%00
+
+(À mình đặt bằng cách dùng burp chặn post request và thêm ở đấy  )
+
+![img](img/Screenshot%20from%202022-02-07%2019-59-34.png)
+
+và có vẻ là cái thứ 2 đã upload thành công
+
+![img](img/Screenshot%20from%202022-02-07%2020-00-07.png)
+
+Giờ truy cập vào file upload đấy và rce qua param cmd thôi
+
+flag: YPNchi2NmTwygr2dgCCF 
