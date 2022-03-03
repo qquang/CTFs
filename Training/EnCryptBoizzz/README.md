@@ -64,7 +64,7 @@ if (isset($_GET['auth_key'])) {
 ```
 Review qua source code:
 - có tất cả 4 param: ``name`` , ``file``, ``auth_key``, ``command``. Cụ thể là:
-- param ``name`` đuợc pass qua function ``Encrypt()`` và đuợc lưu như là phần tử trong biến toàn cục ``$_SESSION``, Ở đây ta có thể đọc đuợc giá trị lưu đó thông qua param ``file`` qua path ``/tmp/sess_PHPSESSID (Note: param ``file`` đã bị pass qua function ``safe()`` được lưu trong config.php vì vậy có vẻ ta khó có thể LFI thông qua đó)
+- param ``name`` đuợc pass qua function ``Encrypt()`` và đuợc lưu như là phần tử trong biến toàn cục ``$_SESSION``, Ở đây ta có thể đọc đuợc giá trị lưu đó thông qua param ``file`` qua path ``/tmp/sess_PHPSESSID`` (Note: param ``file`` đã bị pass qua function ``safe()`` được lưu trong config.php vì vậy có vẻ ta khó có thể LFI thông qua đó)
 - Nếu như ta lấy đưọc đúng ``auth_key`` thì sẽ đưọc rce thông qua param ``command``, vậy quan trọng làm thế nào để láy đuợc ``auth_key``??
 - Quay lại với function ``Encrypt``, hàm này thực thi mã hóa AES-ECB ( 1 loại mã hóa phổ biến và có thể bypass đuợc) với `blocksize=16` (nếu không đủ thì sẽ tự động padding vào thông qua func ``pad()``). 
 
