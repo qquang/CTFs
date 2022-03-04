@@ -23,7 +23,7 @@ Source code:
 Review qua source code nào:
 param ``url`` ở đây được đối xử như 1 URL thật và nó phải pass qua 1 đống ``filter_var``, ``preg_match`` , ``parse_url`` , đến đây mình dự đoán nó có thể là RFI rồi. 
 
-Theo hint của anh Nhiên thì lọ mọ đi search google thoy. sau khi search 1 hồi thì mình tìm thấy, 1 số report cũng như bài thuyết trình của ``orange tsai`` :-=)) Trong BlackHat nói về SSRF dẫn đến exploiting ``parse_url``. Nó có 1 số thủ thuật khá hay để abusing cái parse_url như là thêm @ để làm cái parse_url nhầm lẫn giữa ``host`` và ``user`` hoặc là CSRF ( ``\r\n``),.. 
+Theo hint của anh Nhiên thì lọ mọ đi search google thoy. sau khi search 1 hồi thì mình tìm thấy, 1 số report cũng như bài thuyết trình của ``orange tsai`` :-=)) Trong BlackHat nói về SSRF dẫn đến exploiting ``parse_url``. Nó có 1 số thủ thuật khá hay để abusing cái parse_url như là thêm @ để làm cái parse_url nhầm lẫn giữa ``host`` và ``user`` hoặc là CLRF  ( ``\r\n``),.. 
 
 ![img](./img/Screenshot%20from%202022-03-04%2022-55-29.png)
 
