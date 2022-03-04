@@ -40,17 +40,19 @@ Mình đã test thử với filter ``if(!filter_var($url, FILTER_VALIDATE_URL)) 
 
 ![img](./img/Screenshot%20from%202022-03-04%2023-05-19.png)
 
-Cho nó vào parse_url() để var_dump nó ra xem như thế nào: ``
+Cho nó vào parse_url() để var_dump nó ra xem như thế nào: 
 
 ![img](./img/Screenshot%20from%202022-03-04%2023-10-40.png)
 
-hmm thế này là không thoả mãn đuợc ``if((parse_url($url)['host'] !== "nhienit.kma") || (parse_url($url)['port'] !== 2010)) exit("invalid host or port");``. Thử thêm text vào truớc scheme ``http`` để trigger xem sao. payload: ``url="data://sometext/http:/nhienit.kma:2010//plain,test";``
+hmm thế này là không thoả mãn đuợc ``if((parse_url($url)['host'] !== "nhienit.kma") || (parse_url($url)['port'] !== 2010)) exit("invalid host or port");``. Thử thêm text vào truớc scheme ``http`` để trigger xem sao. 
+
+payload: 
+
+``url="data://sometext/http:/nhienit.kma:2010//plain,test";``
 
 ![img](./img/Screenshot%20from%202022-03-04%2023-14-26.png)
 
-Bingo, bằng cách này ta có thể abuse host và port của cái parse_url
-
-payload của mình sẽ là:
+Bingo, bằng cách này ta có thể abuse host và port của cái parse_url, payload của mình sẽ là:
 
 ``url=data://nhienit.kma:2010/http://nhienit.kma:2010/plain,test;``
 
