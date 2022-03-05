@@ -23,7 +23,7 @@ Source code:
 Review qua source code nào:
 param ``url`` ở đây được đối xử như 1 URL thật và nó phải pass qua 1 đống ``filter_var``, ``preg_match`` , ``parse_url`` , đến đây mình dự đoán nó có thể là RFI rồi. 
 
-Theo hint của anh Nhiên thì lọ mọ đi search google thoy. sau khi search 1 hồi thì mình tìm thấy, 1 số report cũng như bài thuyết trình của ``orange tsai`` :-=)) Trong BlackHat nói về SSRF dẫn đến exploiting ``parse_url``. Nó có 1 số thủ thuật khá hay để abusing cái parse_url như là thêm @ để làm cái parse_url nhầm lẫn giữa ``host`` và ``user`` hoặc là CLRF  ( ``\r\n``),.. 
+Theo hint của anh Nhiên thì lọ mọ đi search google thoy. sau khi search 1 hồi thì mình tìm thấy, 1 số report cũng như bài thuyết trình của ``orange tsai`` :-=)) Trong BlackHat nói về SSRF dẫn đến exploiting ``parse_url``. Nó có 1 số thủ thuật khá hay để abusing cái parse_url như là thêm @ để làm cái parse_url nhầm lẫn giữa ``host`` và ``user`` hoặc là CLRF ( ``\r\n``),.. 
 
 ![img](./img/Screenshot%20from%202022-03-04%2022-55-29.png)
 
@@ -58,7 +58,7 @@ Bingo, bằng cách này ta có thể abuse host và port của cái parse_url, 
 
 ![img](./img/Screenshot%20from%202022-03-04%2023-18-19.png)
 
-Đây là tiền đề để có thể thực hiện rce rồi, mình có thể ném script php lên (php wrapper sẽ execute code của mình) , cụ thể trong bài này ta phỉa encode script php theo dạng base64 vì ``php tag`` bị dính filter. script php: ``PD9waHAgc3lzdGVtKCRfR0VUWydjbWQnXSk7Pz4=`` (aka ``<?php system($_GET['cmd']);?>``)
+Đây là tiền đề để có thể thực hiện rce rồi, mình có thể ném script php lên (``include`` ở đây sẽ coi php wrapper ``data://`` là 1 file dữ liệu, và sẽ thực thi script của mình) , cụ thể trong bài này ta phỉa encode script php theo dạng base64 vì ``php tag`` bị dính filter. script php: ``PD9waHAgc3lzdGVtKCRfR0VUWydjbWQnXSk7Pz4=`` (aka ``<?php system($_GET['cmd']);?>``)
 
 payload: 
 ``?url=data://nhienit.kma:2010/http://nhienit.kma:2010/plain;base64,PD9waHAgc3lzdGVtKCRfR0VUWydjbWQnXSk7Pz4=&cmd=ls -lsa``
