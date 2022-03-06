@@ -57,7 +57,7 @@ Reference:
 
 Các magic method được sử dụng trong bài:
 
--``__construct()``: gọi khi khởi tạo đối tượng.
+- ``__construct()``: gọi khi khởi tạo đối tượng.
 - ``__destruct()``: gọi khi hủy đối tượng.
 - ``__get()``: khi đọc dữ liệu từ một thuộc tính không được phép truy cập.
 - ``__toString()``: phương thức này giúp class chỉ định xem sẽ in ra cái gì khi nó được dùng.
