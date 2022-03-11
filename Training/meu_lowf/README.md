@@ -179,12 +179,12 @@ if (is_callable($patternselect)) {
 }
 ```
 
-![img](/img/Screenshot%20from%202022-03-11%2002-49-28.png)
+![img](./img/1.png)
 
 $patternselect ở đây sẽ call đến 1 function built in trong php và sẽ nhận $address là arguments của nó. Ở đây ta có thể khai thác thông qua func ``system()`` để thực hiện RCE ^^.
 
-![img](./img/Screenshot%20from%202022-03-11%2002-55-12.png)
+![img](./img/2.png)
 
 Readflag:
 
-![img](img/Screenshot%20from%202022-03-11%2002-56-59.png)
+![img](./img/3.png)
