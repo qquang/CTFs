@@ -1,4 +1,4 @@
-# 21. JSON Web Token (JWT) - Weak secret
+# 22. JSON Web Token (JWT) - Weak secret
 ![image](./img/Screenshot%20from%202022-02-26%2014-40-44.png)
 
 như message thì ta sẽ có dc token khi truy cập vào /token/ , và sẽ phỉa dùng token đấy để truy cập vào /admin/
@@ -21,7 +21,7 @@ curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoi
 {"result": "Congrats!! Here is your flag: PleaseUseAStrongSecretNextTime\n"}
 ```
 
-# 22. JWT - Revoked token
+# 23. JWT - Revoked token
 ```
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
@@ -144,7 +144,7 @@ while True:
 
 flag: Do_n0t_r3v0ke_3nc0d3dTokenz_Mam3ne-Us3_th3_JTI_f1eld
 
-# 23. PHP - assert()
+# 24. PHP - assert()
 ## Description
 Find and exploit the vulnerability to read the file .passwd.
 ## Solution
@@ -160,7 +160,7 @@ hmm.. assert và strpos, theo như [hacktrick](https://book.hacktricks.xyz/pente
 
 flag: x4Ss3rT1nglSn0ts4f3A7A1Lx
 
-# 24. PHP - Filters
+# 25. PHP - Filters
 ## Solution
 Đây cũng là 1 chall về LFI, nma lần này theo như hint đề bài thì sẽ phải bypass thông qua ``PHP wrappers`` rồi. payload sẽ có dạng: ``?inc=php://filter/convert.base64-encode/resource=index.php``. Mỗi trang lần luợt lại include vs required đến trang tiếp theo, mình cứ tìm lần lưọt đến khi đến trang ``config.php``.
 
@@ -170,7 +170,7 @@ Lấy cái credential đó submit và lấy flag thoy.
 
 flag: DAPt9D2mky0APAF
 
-# 25. PHP - register globals
+# 26. PHP - register globals
 ## Description
 It seems that the developper often leaves backup files around...
 ## Solution
@@ -192,7 +192,7 @@ Mình có thể trigger ``$hidden_password`` khi mà set ``$_SESSION["logged"]=1
 
 ![img](./img/Screenshot%20from%202022-02-27%2016-34-18.png)
 
-# 26. Python - Server-side Template Injection Introduction
+# 27. Python - Server-side Template Injection Introduction
 ## Description
 This service allows you to generate a web page. Use it to read the flag!
 ## Solution

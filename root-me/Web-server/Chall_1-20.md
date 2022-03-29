@@ -31,26 +31,26 @@ pass:admin
 
 (I think if I guess the credentials, maybe I'll finish sooner :v)
 
-# 5. PHP - Command injection
+# 6. PHP - Command injection
 pass: S3rv1ceP1n9Sup3rS3cure
-# 6. Backup file
+# 7. Backup file
 Content discovery (use dirsearch)
 
 pass: OCCY9AcNm1tj
-# 7. HTTP - Directory indexing
+# 8. HTTP - Directory indexing
 Content discovery 
 
 pass: Linux
-# 8. HTTP - Headers
+# 9. HTTP - Headers
 change the header (script in folder)
 
 pass: HeadersMayBeUseful
-# 9. HTTP - POST
+# 10. HTTP - POST
 As the title, use request method:POST to send data (script in folder)
 
 pass: H7tp_h4s_N0_s3Cr37S_F0r_y0U
 
-# 10. HTTP - Improper redirect
+# 11. HTTP - Improper redirect
 The web page is automatically add redirect param to the url because of the Location header
 
 ```
@@ -67,25 +67,25 @@ to the request (script in the folder)
 
 pass: ExecutionAfterRedirectIsBad
 
-# 11. HTTP - Verb tampering
+# 12. HTTP - Verb tampering
 My first idea is tried the script and the payload i had done earlier chall but no working, so i have to rethink about this chall. i note that the title is **Verb tampering** so the ideal here is change the request method to anything other than GET.
 
 pass: ```a23e$dme96d3saez$$prap```
 
-# 12. Install files
+# 13. Install files
 According to the title, the admin of this page uses phpbb (i dont know what it is) and he forget to delete his install folder, so the idea this to find it
 
 Location: **/phpbb/install/**
 
 pass: karambar
 
-# 13. CRLF
+# 14. CRLF
 (Carriage return and Line Feed) it means to create new lines (\r\n).
 So the idea is to use intercept proxy (e.g. Burp suite) edit request to
 ```
 GET /web-serveur/ch14/?username=%0D%0Aadmin%20authenticated%0D%0INJECTINHERE
 ```
-# 14. File upload - Double extensions
+# 15. File upload - Double extensions
 The idea is upload our script and rce. 
 (i have tried reverse shell with netcat and ngrok to port fowarding but somehow it didnt work LOL so i use this script from another write up)
 ```
@@ -102,23 +102,23 @@ challenge01.root-me.org/web-serveur/ch20/galerie/upload/0c3f5ea659f03569d6fce99c
 ```
 pass: Gg9LRz-hWSxqqUKd77-_q-6G8
 
-# 15. File upload - MIME type
+# 16. File upload - MIME type
 (Kiểu phương tiện là định danh hai phần cho định dạng file và nội dung định dạng được truyền trên Internet.)
 
-So idea here is use Burp to change the header **Content-type** from  from **aplication/octet-stream** to **image/png**. Ok now we can upload our script successfully
+So idea here is use Burp to change the header **Content-type**  from **aplication/octet-stream** to **image/png**. Ok now we can upload our script successfully
 
 pass: a7n4nizpgQgnPERy89uanf6T4
 
-# 16. HTTP - Cookies
+# 17. HTTP - Cookies
 Use burp to catch request and change the cookie from **visiteur** to **admin**
 
 pass: ml-SYMPA 
-# 17. Insecure Code Management
+# 18. Insecure Code Management
 (use Gittools)
 
 pass: s3cureP@ssw0rd
 
-# 18. JSON Web Token (JWT) - Introduction
+# 19. JSON Web Token (JWT) - Introduction
 first, let's capture the request and respone with burp
 
 ![image info](img/248008306_329979162475483_3939972177496919035_n.png)
@@ -131,12 +131,7 @@ So we can change the algorithm from **HS256** to **none** and delete the signatu
 
 pass: S1gn4tuR3_v3r1f1c4t10N_1S_1MP0Rt4n7
 
-
-
-# ------------- TIENG VIET ---------------
-# 19. Directory traversal
-Xin phép qua tiếng việt viết cho nhanh chứ làm quả 7 mấy chall tiếng anh thì đến già ms xong mất :( (với cả mình nghĩ đến tầm chall này trở đi cũng bắt đầu cần động não rùi)
-
+# 20. Directory traversal
 
 Cái title đã gợi ý lỗ hổng cho rùi, mình sẽ dùng param galerie để khai thác lỗ hổng, thử enumerate bằng payload này: "**.**" xem sao 
 
@@ -157,7 +152,7 @@ http://challenge01.root-me.org/web-serveur/ch15/ch15.php?galerie=.
 yay và cuối cùng truy cập lấy flag thôi
 
 flag: kcb$!Bx@v4Gs9Ez
-# 20. File upload - Null byte
+# 21. File upload - Null byte
 Upload thử đoạn script từ chall 14 với png filter xem ntn
 
 ![img](img/Screenshot%20from%202022-02-07%2019-53-29.png) 
