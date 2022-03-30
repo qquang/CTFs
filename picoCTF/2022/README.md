@@ -3,7 +3,7 @@
 I made a nice web app that lets you take notes. I'm pretty sure I've followed all the best practices so its definitely secure right?
 Note that the headless browser used for the "report" feature does not have access to the internet.
 ## Solution
-Bài này cho mình sẵn source code, nhưng mà theo kinh nghiệm thì truớc tiên mình nên thử các feature như blackbox đã truớc khi đọc sourcecode.
+Bài này cho mình sẵn source code, nhưng mà theo kinh nghiệm thì nên thử hết các feature truớc đã giống như đang đấm blackbox truớc khi đọc sourcecode.
 
 Chall mở đầu bằng trang login:
 
@@ -13,7 +13,7 @@ Register cred bất kì và vào dashboard:
 
 ![img](./img/3.png)
 
-ở đây có 1 mục tạo noted ( bị dính xss) và 1 mục report URL. Nhưng mà tất cả chỉ dừng lại ở self xss, thôi thì tạm thời thế đã giờ thì review source nào
+ở đây có 1 mục tạo noted ( bị dính xss) và 1 mục report URL. Nhưng mà tất cả chỉ dừng lại ở self xss, thôi thì tạm thời thế đã giờ thì review source nào =))))
 
 ![img](./img/2.png)
 
@@ -73,7 +73,7 @@ module.exports = { open: false, run }
  
 con puppeteer bot này dùng headless browser với flag ``--no-sandbox``. Đầu tiên nó sẽ tạo tài khoản bất kì, và tạo 1 note chứa flag trong session tkhoan đó. sau đó nó sẽ browse đến url mà mình gửi
 
-Thông thuờng thì mình có thể khai thác ``self-XSS`` bằng cách sẽ là sử dụng ``CSRF`` để ``POST`` cái login form vào tài khoản của mình để trigger xss. Nhưng mà account mà con bot sử dụng đưọc tạo random cùng với csrf nên cách này sẽ ko thành công. Ngoài ra theo như hint đề bài ``There's more than just HTTP(S)!`` mình còn nghĩ đến chrome devtool protocol như là truy cập voà ``json/list`` của port 9222 rồi exploit tiếp cái websocketdebugurl :D
+Thông thuờng thì mình có thể khai thác ``self-XSS`` bằng cách sẽ là sử dụng ``CSRF`` để ``POST`` cái login form vào tài khoản của mình để trigger xss. Nhưng mà account mà con bot sử dụng đưọc tạo random cùng với csrf nên cách này sẽ ko thành công. Ngoài ra theo như hint đề bài ``There's more than just HTTP(S)!`` mình còn nghĩ đến chrome devtool protocol như là truy cập voà ``json/list`` của port 9222 rồi exploit tiếp cái websocketdebugurl But no hope :D
 
 Nhưng có 1 điểm đặc biệt ở đây, nếu 2 windows X và Y có cùng một ``document.domain``, miễn là chúng lquan đến nhau thì chúng có thể access vào DOM của nhau :DD. Cụ thể nếu X là trang chứa flag rồi sau đó B login vào cred bị dính self-XSS thì B vẫn có thể đọc DOM từ A ( dùng window.open) để lấy flag
 
@@ -115,5 +115,3 @@ data:text/html,
 </script>
 ```
 ![img](./img/5.png)
-
-## Cách tham khảo thêm:
