@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>noted | new note</title>
+	<%- include('style') %>
+</head>
+<body>
+<h1>New Note</h1>
+<form action="/new" method="POST">
+	<input type="hidden" name="_csrf" value="<%- csrf %>">
+	<input type="text" name="title" placeholder="title">
+	<br><br>
+	<textarea name="content" cols="50" rows="10" placeholder="content"></textarea>
+	<br><br>
+	<input type="submit" value="Create">
+</form>
+<br>
+<a href='/notes'>Notes</a>
+</body>
+</html>

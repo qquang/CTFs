@@ -1,0 +1,23 @@
+{
+  "name": "noted",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "argon2": "^0.28.3",
+    "ejs": "^3.1.6",
+    "fastify": "^3.25.3",
+    "fastify-csrf": "^3.1.0",
+    "fastify-formbody": "^5.2.0",
+    "fastify-secure-session": "^3.0.0",
+    "point-of-view": "^5.0.0",
+    "puppeteer": "^13.0.1",
+    "sequelize": "^6.12.5",
+    "sqlite3": "^5.0.2"
+  }
+}

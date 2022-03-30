@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>noted | report</title>
+	<%- include('style') %>
+</head>
+<body>
+<h1>Report URL</h1>
+<form action="/report" method="POST">
+	<input type="hidden" name="_csrf" value="<%- csrf %>">
+	<input type="text" name="url" placeholder="url">
+	<br><br>
+	<input type="submit" value="Report">
+</form>
+</body>
+</html>
