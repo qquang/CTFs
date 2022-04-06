@@ -542,8 +542,7 @@ như description:
 3. vì đã biết public key --> chuyển mã hóa từ RS256 sang HS256
 
 note:
-```
-Nếu chuyển từ RS256 sang HS256 thì signature sẽ được verify bằng public key của HS256. khi đã thay đổi thuật toán mã hoá sang HS256, vì lúc này secret key tương đương với public key mà mình có được, chỉ cần sign signature bằng key mà mình có được, ứng dụng hệ thống sẽ verify trên public key nên sẽ có thể dễ dàng bypass được JWT verification.
+>Nếu chuyển từ RS256 sang HS256 thì signature sẽ được verify bằng public key của HS256. khi đã thay đổi thuật toán mã hoá sang HS256, vì lúc này secret key tương đương với public key mà mình có được, chỉ cần sign signature bằng key mà mình có được, ứng dụng hệ thống sẽ verify trên public key nên sẽ có thể dễ dàng bypass được JWT verification.
 ```
 
 script (use [pyjwt](https://github.com/jpadilla/pyjwt)):
