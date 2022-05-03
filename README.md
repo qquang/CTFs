@@ -1,6 +1,3 @@
-### List
-- [Writeup]()
-- [Note]()
 # Writeup 
 
 <details>
