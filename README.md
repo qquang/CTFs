@@ -71,3 +71,4 @@
 - [django_picker_serialize](https://github.com/qquang/CTFs/blob/main/Note/django_picker_serialize.md)
 - [libreoffice_to_ssrf](https://github.com/qquang/CTFs/blob/main/Note/libreoffice_to_ssrf.md)
 - [xsl_to_xss](https://github.com/qquang/CTFs/blob/main/Note/xsl_to_xss.md)
+- [bypass space command injection](Note/blind_cmdi.md)
