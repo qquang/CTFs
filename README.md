@@ -72,3 +72,5 @@
 - [libreoffice_to_ssrf](https://github.com/qquang/CTFs/blob/main/Note/libreoffice_to_ssrf.md)
 - [xsl_to_xss](https://github.com/qquang/CTFs/blob/main/Note/xsl_to_xss.md)
 - [bypass space command injection](Note/blind_cmdi.md)
+- [hangul_filler (VI)](Note/hangul_filler%20(VI).md)
+- [SQli in prepared statement (VI)](Note/sqli_in_mysqljs(VI).md)
